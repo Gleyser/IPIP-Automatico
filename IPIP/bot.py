@@ -5,7 +5,7 @@ from openpyxl import load_workbook
 
 class bot():
     def __init__(self):
-        self.drive = webdriver.Chrome(executable_path=r"C:\Users\gleys\Desktop\IPIP\chromedriver.exe")
+        self.drive = webdriver.Chrome(executable_path=r"C:\Users\gleys\Documents\GitHub\IPIP-Automatico\IPIP\chromedriver.exe")
         self.wb = load_workbook(filename='dados.xlsx')
         self.ws = self.wb['Dados']
 
@@ -50,7 +50,7 @@ class bot():
         pais = drive.find_element_by_xpath('/html/body/form/p[6]/select')
         pais.send_keys('Brazil')
 
-        
+        # Parte 1 do formulario
         for numeroQuestaoFormulario in range(1, 61):
             numeroQuestaoExcel = numeroQuestaoFormulario + 3
             respostaDaPessoa = self.ws[linhaDaPessoa][numeroQuestaoExcel].value
@@ -76,10 +76,35 @@ class bot():
         botaoEnviarParte1 = drive.find_element_by_xpath('/html/body/form/p[7]/input')
         botaoEnviarParte1.click()        
         
-        # esperar clicar no botao de aceitar sem seguranca
-        time.sleep(60)
+        # esperar a transicao entre as telas
+        time.sleep(20)
 
+        # Parte 2 do formulario
+        for numeroQuestaoFormulario in range(1, 61):
+            numeroQuestaoExcel = numeroQuestaoFormulario + 63
+            respostaDaPessoa = self.ws[linhaDaPessoa][numeroQuestaoExcel].value
+            qfinal = ""
 
+            if (respostaDaPessoa == "Muito Impreciso"):
+                qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[3]/center/input')          
+                
+            elif (respostaDaPessoa == "Moderadamente Impreciso"):
+                qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[4]/center/input')  
+
+            elif (respostaDaPessoa == "Nem preciso Nem impreciso"):
+                qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[5]/center/input')  
+
+            elif (respostaDaPessoa == "Moderadamente Preciso"):
+                qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[6]/center/input')  
+
+            elif (respostaDaPessoa == "Muito Preciso"):
+                qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[7]/center/input')
+            
+            qfinal.click()  
+
+        # buffer
+        time.sleep(60)    
+        
 
 bot = bot()
 bot.preencherForms()
