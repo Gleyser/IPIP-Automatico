@@ -103,7 +103,13 @@ class bot():
             qfinal.click()  
 
         # buffer
-        time.sleep(60)    
+        time.sleep(10)  
+
+        botaoEnviarParte2 = drive.find_element_by_xpath('/html/body/form/p[3]/input')
+        botaoEnviarParte2.click() 
+
+        # buffer
+        time.sleep(60)        
         
 
 bot = bot()
