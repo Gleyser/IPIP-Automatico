@@ -109,7 +109,11 @@ class bot():
         botaoEnviarParte2.click() 
 
         # buffer
-        time.sleep(60)        
+        time.sleep(60)  
+
+        texto = drive.find_element_by_xpath('/html/body').text
+        arquivo = open(self.ws[linhaDaPessoa][0].value + ".txt", "a")
+        arquivo.write(str(texto))      
         
 
 bot = bot()
