@@ -12,7 +12,7 @@ class bot():
     def preencherForms(self):
         drive = self.drive
 
-        for pessoa in range (83, 121):
+        for pessoa in range (2, 121):
             drive.get('https://www.personal.psu.edu/~j5j/IPIP/ipipneo120.htm')
             time.sleep(5)
             yes1 = drive.find_element_by_xpath('/html/body/form/table[1]/tbody/tr/td/input')
@@ -103,7 +103,7 @@ class bot():
                     qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[6]/center/input')  
 
                 elif (respostaDaPessoa == "Muito Preciso"):
-                    qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[7]/center/input')
+                    qfinal = drive.find_element_by_xpath('/html/body/form/table/tbody/tr['+str(numeroQuestaoFormulario)+']/td[7]/center/input')                
                 
                 qfinal.click()  
 
