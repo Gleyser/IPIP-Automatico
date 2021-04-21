@@ -2,6 +2,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from openpyxl import load_workbook
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class bot():
     def __init__(self):
@@ -14,7 +16,7 @@ class bot():
 
         for pessoa in range (2, 121):
             drive.get('https://www.personal.psu.edu/~j5j/IPIP/ipipneo120.htm')
-            time.sleep(5)
+            time.sleep(10)
             yes1 = drive.find_element_by_xpath('/html/body/form/table[1]/tbody/tr/td/input')
             yes1.click()
 
@@ -23,12 +25,12 @@ class bot():
 
             botaoSend = drive.find_element_by_xpath('/html/body/form/b[2]/p/input')
             botaoSend.click()
-            
+            time.sleep(10)
             # esperar clicar no botao de aceitar sem seguranca
             
             botaoSendSeguranca = drive.find_element_by_xpath('//*[@id="proceed-button"]')
             botaoSendSeguranca.click()
-            time.sleep(5)
+            time.sleep(20)
 
             # linha da planilha 
             linhaDaPessoa = pessoa
@@ -82,8 +84,8 @@ class bot():
             botaoEnviarParte1.click()        
             
             # esperar a transicao entre as telas
-            time.sleep(10)
-
+            time.sleep(20)
+            
             # Parte 2 do formulario
             for numeroQuestaoFormulario in range(1, 61):
                 numeroQuestaoExcel = numeroQuestaoFormulario + 63
@@ -108,17 +110,23 @@ class bot():
                 qfinal.click()  
 
             # buffer
-            time.sleep(3)  
+            time.sleep(5)  
 
             botaoEnviarParte2 = drive.find_element_by_xpath('/html/body/form/p[3]/input')
-            botaoEnviarParte2.click() 
+            botaoEnviarParte2.click()             
 
             # buffer
-            time.sleep(10)  
-
+            time.sleep(10)            
+            
+            WebDriverWait(drive, 500).until(EC.title_is("IPIP-NEO Narrative Report"))
             texto = drive.find_element_by_xpath('/html/body').text
-            arquivo = open(str(self.ws[linhaDaPessoa][0].value) + ".txt", "a")
-            arquivo.write(str(texto))      
+            time.sleep(10)
+            arquivo = open(str(linhaDaPessoa) + "-" + str(self.ws[linhaDaPessoa][0].value) + ".txt", "a")
+            arquivo.write(str(texto))   
+            arquivo.close()    
+
+            # esperar a transicao entre as telas
+            time.sleep(3)    
         
 
 bot = bot()
